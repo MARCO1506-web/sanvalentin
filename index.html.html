@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mensaje</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial, sans-serif;
+overflow:hidden;
+}
+
+/* PARTICULAS SUAVES */
+.particula{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+opacity:0.15;
+animation:flotar linear infinite;
+}
+
+@keyframes flotar{
+from{ transform:translateY(100vh); }
+to{ transform:translateY(-10vh); }
+}
+
+/* CAJA */
+.box{
+background:white;
+width:480px;
+height:250px;
+padding:30px;
+border-radius:14px;
+box-shadow:0 0 35px rgba(255,255,255,0.15);
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+
+#text{
+font-size:18px;
+opacity:0;
+}
+
+/* ANIMACIONES TEXTO */
+.fadeIn{
+animation:fadeIn 2s forwards;
+}
+
+.fadeOut{
+animation:fadeOut 2s forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+@keyframes fadeOut{
+from{opacity:1;}
+to{opacity:0;}
+}
+
+/* BOTONES */
+.buttons{
+display:none;
+position:absolute;
+bottom:20px;
+}
+
+button{
+padding:8px 20px;
+margin:6px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#e0e0e0;
+font-weight:bold;
+transition:0.3s;
+}
+
+button:hover{
+background:#d0d0d0;
+}
+
+/* RESPUESTA */
+.response{
+position:absolute;
+bottom:-60px;
+font-size:32px;
+opacity:0;
+}
+
+.appear{
+animation:pop 0.8s forwards;
+}
+
+@keyframes pop{
+0%{transform:scale(0.5);opacity:0;}
+70%{transform:scale(1.2);opacity:1;}
+100%{transform:scale(1);opacity:1;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<div id="text"></div>
+
+<div class="buttons" id="buttons">
+<button onclick="si()">Sí</button>
+<button onclick="no()">No</button>
+</div>
+
+<div class="response" id="respuesta"></div>
+
+</div>
+
+<script>
+
+/* CREAR PARTICULAS */
+for(let i=0;i<35;i++){
+let p=document.createElement("div");
+p.className="particula";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(6+Math.random()*10)+"s";
+p.style.opacity=Math.random()*0.2;
+document.body.appendChild(p);
+}
+
+/* MENSAJE SECUENCIAL */
+const mensajes=[
+
+"Hola, Dan.",
+
+"No estoy queriendo decir algo de otro mundo con esto.",
+
+"Ambos vamos a tomar rumbos diferentes.",
+
+"Eso lo sé.",
+
+"Pero había algo que necesitaba decir.",
+
+"Quiero disculparme.",
+
+"Por la manera en que llegué a comportarme.",
+
+"Sé que estabas pasando por un momento difícil.",
+
+"Y lamento si sentiste que no estuve ahí.",
+
+"No fue mi intención.",
+
+"También quiero agradecerte.",
+
+"Por los buenos momentos que compartimos.",
+
+"Porque sí existieron.",
+
+"Y los valoro.",
+
+"No te estoy pidiendo que regresemos.",
+
+"Solo quiero estar en paz.",
+
+"Y que tú también lo estés.",
+
+"Dan...",
+
+"¿Podemos hacer las paces?"
+
+];
+
+let i=0;
+const text=document.getElementById("text");
+const buttons=document.getElementById("buttons");
+
+function mostrar(){
+
+if(i < mensajes.length){
+
+text.classList.remove("fadeOut");
+text.classList.add("fadeIn");
+
+text.innerHTML = mensajes[i];
+
+/* SI ES LA PREGUNTA FINAL */
+if(i === mensajes.length - 1){
+setTimeout(()=>{
+buttons.style.display="block";
+},3000);
+return;
+}
+
+setTimeout(()=>{
+text.classList.remove("fadeIn");
+text.classList.add("fadeOut");
+},4000);
+
+setTimeout(()=>{
+i++;
+mostrar();
+},6000);
+
+}
+
+}
+
+mostrar();
+
+/* RESPUESTAS */
+
+function si(){
+const r=document.getElementById("respuesta");
+r.innerHTML="🤝";
+r.classList.add("appear");
+buttons.style.display="none";
+}
+
+function no(){
+const r=document.getElementById("respuesta");
+r.innerHTML="👍";
+r.classList.add("appear");
+buttons.style.display="none";
+}
+
+</script>
+
+</body>
+</html>
